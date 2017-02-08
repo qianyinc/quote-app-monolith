@@ -1,11 +1,15 @@
 package edu.cmu.mis.iccfb.controller;
 
+import java.util.ArrayList;
+
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import edu.cmu.mis.iccfb.model.Author;
@@ -27,6 +31,23 @@ public class QuoteController {
         return quoteService.randomQuote();
     }
     
+    @RequestMapping(value = "/api/quote/by")
+    public List<Quote> findByName(@RequestParam(required = true)String name) {
+        return quoteService.findByAuthor_Name(name);
+    }
+
+    @RequestMapping(value = "/api/author", method = RequestMethod.GET)
+    public List<Author> listAuthors() {
+        List<Author> authors = new ArrayList<>();
+        authorService.findAll().iterator().forEachRemaining(authors::add);
+        return authors;
+    }
+    
+    
+    
+    
+    
+
     @RequestMapping(value = "/api/quote", method = RequestMethod.POST)
     public void saveQuote(@RequestBody Quote quote) {
         System.out.println(quote);
@@ -37,10 +58,15 @@ public class QuoteController {
             System.out.println("Saving author");
             authorService.save(quote.getAuthor());
         }
+        else {
+            quote.setAuthor(a);
+        }
+        
         
         System.out.println("Saving quote");
         quoteService.save(quote);
     }
+    
     
     
     public Quote fallback() {

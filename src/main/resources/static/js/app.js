@@ -14,7 +14,7 @@ app.config(function($urlRouterProvider, $stateProvider) {
 
     $stateProvider
         .state("quote", {
-            url: "/",
+            url: "/quote",
             templateUrl : "templates/quote.html",
             controller: "RandomQuoteCtrl"
         })
@@ -22,5 +22,15 @@ app.config(function($urlRouterProvider, $stateProvider) {
             url: "/add",
             templateUrl : "templates/add.html",
             controller: "SaveQuoteCtrl"
+        })
+        .state("authorList", {
+            url: "/",
+            templateUrl : "templates/author_list.html",
+            controller: "AuthorListCtrl"
+        })
+        .state("quoteList", {
+            url: "/quotes/:name",
+            templateUrl : "templates/quote_list.html",
+            controller: "QuoteListCtrl"
         });
 });
